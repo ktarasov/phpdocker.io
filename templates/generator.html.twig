@@ -11,114 +11,132 @@
 
 {% block body %}
     <form method="post" id="generator" action="{{ path('generator') }}">
+        {% if (form_errors(form)) %}
         <div class="row">
             {{ form_errors(form) }}
         </div>
+        {% endif %}
+
         <div class="row">
             <div class="{{ formGroupClass }} {{ bigColumn }}">
-                <h3>Global configuration</h3>
-                <div class="row">
-                    {% for field in ['basePort', 'appPath', 'dockerWorkingDir'] %}
-                        <div class="col col-lg-4 col-md-4"
-                             id="container_for_{{ field }}">{{ form_row(attribute(form.globalOptions, field)) }}</div>
-                    {% endfor %}
-                </div>
-                <div class="row">
-                    <div class="col col-lg-4 col-md-4">
-                        <div class="note">Initial port for services exposed from docker to your machine</div>
+                <section>
+                    <h3>Global configuration</h3>
+                    <div class="row">
+                        {% for field in ['basePort', 'appPath', 'dockerWorkingDir'] %}
+                            <div class="col col-lg-4 col-md-4"
+                                id="container_for_{{ field }}">{{ form_row(attribute(form.globalOptions, field)) }}</div>
+                        {% endfor %}
                     </div>
-                    <div class="col col-lg-4 col-md-4">
-                        <div class="note">Location of your app's source code relative to docker-compose.yaml</div>
+                    <div class="row">
+                        <div class="col col-lg-4 col-md-4">
+                            <div class="note">Initial port for services exposed from docker to your machine</div>
+                        </div>
+                        <div class="col col-lg-4 col-md-4">
+                            <div class="note">Location of your app's source code relative to docker-compose.yaml</div>
+                        </div>
+                        <div class="col col-lg-4 col-md-4">
+                            <div class="note">Working directory for all containers</div>
+                        </div>
                     </div>
-                    <div class="col col-lg-4 col-md-4">
-                        <div class="note">Working directory for all containers</div>
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
 
         <div class="row">
             <div class="{{ formGroupClass }} col col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                <h3>PHP configuration</h3>
-                <div class="row">
-                    <div class="col col-lg-6 col-md-6">
-                        {{ form_row(attribute(form.phpOptions, 'version')) }}
-                        {{ form_row(attribute(form.phpOptions, 'frontControllerPath')) }}
-                        {{ form_row(attribute(form.phpOptions, 'hasGit')) }}
+                <section>
+                    <h3>PHP configuration</h3>
+                    <div class="row">
+                        <div class="col col-lg-6 col-md-6">
+                            {{ form_row(attribute(form.phpOptions, 'version')) }}
+                            {{ form_row(attribute(form.phpOptions, 'frontControllerPath')) }}
+                            {{ form_row(attribute(form.phpOptions, 'hasGit')) }}
 
-                        <div class="note">
-                            <p>Please note:</p>
-                            <ul>
-                                <li>Extensions already included on base image: APC,
-                                    cURL, JSON, Sodium, MBString, OPCache, Readline, XML and Zip.
-                                </li>
-                                <li>Each PHP version supports a different set of extensions to the others.</li>
-                            </ul>
+                            <div class="note">
+                                <p>Please note:</p>
+                                <ul>
+                                    <li>Extensions already included on base image: APC,
+                                        cURL, JSON, Sodium, MBString, OPCache, Readline, XML and Zip.
+                                    </li>
+                                    <li>Each PHP version supports a different set of extensions to the others.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col col-lg-6 col-md-6">
+                            {{ form_row(attribute(form.phpOptions, 'phpExtensions84')) }}
+
+                            {{ form_row(attribute(form.phpOptions, 'phpExtensions83')) }}
+
+                            {{ form_row(attribute(form.phpOptions, 'phpExtensions82')) }}
+
+                            {{ form_row(attribute(form.phpOptions, 'phpExtensions81')) }}
                         </div>
                     </div>
-
-                    <div class="col col-lg-6 col-md-6">
-                        {{ form_row(attribute(form.phpOptions, 'phpExtensions84')) }}
-
-                        {{ form_row(attribute(form.phpOptions, 'phpExtensions83')) }}
-
-                        {{ form_row(attribute(form.phpOptions, 'phpExtensions82')) }}
-
-                        {{ form_row(attribute(form.phpOptions, 'phpExtensions81')) }}
-                    </div>
-                </div>
+                </section>
             </div>
             <div class="{{ formGroupClass }} col col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <h3>Zero-config Services</h3>
-                <p class="note">The following services take no additional configuration parameters.</p>
-
-                {% for field in ['hasMemcached', 'hasRedis', 'hasMailhog', 'hasClickhouse'] %}
-                    {% if (attribute(form, field) is defined) %}
-                        <div class="form-group">{{ form_widget(attribute(form, field)) }}</div>
-                    {% endif %}
-                {% endfor %}
+                <section>
+                    <h3>Zero-config Services</h3>
+                    <p class="note px-1">The following services take no additional configuration parameters.</p>
+                    <div class="px-1">
+                    {% for field in ['hasMemcached', 'hasRedis', 'hasMailhog', 'hasClickhouse'] %}
+                        {% if (attribute(form, field) is defined) %}
+                            <div class="form-group">{{ form_widget(attribute(form, field)) }}</div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </section>
             </div>
         </div>
 
         <div class="row">
             <div class="{{ formGroupClass }} {{ quarterColumn }}">
-                <h3>{{ form_widget(attribute(form.mysqlOptions, 'hasMysql')) }}</h3>
-                <div id="mysql-options" class="row">
-                    {% for field in ['version', 'rootPassword', 'databaseName', 'username', 'password'] %}
-                        {% if (attribute(form.mysqlOptions, field) is defined) %}
-                            <div id="container_for_mysql_{{ field }}">{{ form_row(attribute(form.mysqlOptions, field)) }}</div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                <section class="py-0">
+                    <h3 class="mb-0">{{ form_widget(attribute(form.mysqlOptions, 'hasMysql')) }}</h3>
+                    <div id="mysql-options" class="row px-1">
+                        {% for field in ['version', 'rootPassword', 'databaseName', 'username', 'password'] %}
+                            {% if (attribute(form.mysqlOptions, field) is defined) %}
+                                <div id="container_for_mysql_{{ field }}">{{ form_row(attribute(form.mysqlOptions, field)) }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </section>
             </div>
 
             <div class="{{ formGroupClass }} {{ quarterColumn }}">
-                <h3>{{ form_widget(attribute(form.mariadbOptions, 'hasMariadb')) }}</h3>
-                <div id="mariadb-options" class="row">
-                    {% for field in ['version', 'rootPassword', 'databaseName', 'username', 'password'] %}
-                        {% if (attribute(form.mariadbOptions, field) is defined) %}
-                            {{ form_row(attribute(form.mariadbOptions, field)) }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                <section class="py-0">
+                    <h3 class="mb-0">{{ form_widget(attribute(form.mariadbOptions, 'hasMariadb')) }}</h3>
+                    <div id="mariadb-options" class="row px-1">
+                        {% for field in ['version', 'rootPassword', 'databaseName', 'username', 'password'] %}
+                            {% if (attribute(form.mariadbOptions, field) is defined) %}
+                                {{ form_row(attribute(form.mariadbOptions, field)) }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </section>
             </div>
 
             <div class="{{ formGroupClass }} {{ quarterColumn }}">
-                <h3>{{ form_widget(attribute(form.postgresOptions, 'hasPostgres')) }}</h3>
-                <div id="postgres-options" class="row">
-                    {% for field in ['version', 'rootUser', 'rootPassword', 'databaseName'] %}
-                        {% if (attribute(form.postgresOptions, field) is defined) %}
-                            {{ form_row(attribute(form.postgresOptions, field)) }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                <section class="py-0">
+                    <h3 class="mb-0">{{ form_widget(attribute(form.postgresOptions, 'hasPostgres')) }}</h3>
+                    <div id="postgres-options" class="row px-1">
+                        {% for field in ['version', 'rootUser', 'rootPassword', 'databaseName'] %}
+                            {% if (attribute(form.postgresOptions, field) is defined) %}
+                                {{ form_row(attribute(form.postgresOptions, field)) }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </section>
             </div>
 
             <div class="{{ formGroupClass }} {{ quarterColumn }}">
-                <h3>{{ form_widget(attribute(form.elasticsearchOptions, 'hasElasticsearch')) }}</h3>
-                <div id="elasticsearch-options" class="row">
-                    {{ form_row(attribute(form.elasticsearchOptions, 'version')) }}
-                </div>
+                <section class="py-0">
+                    <h3 class="mb-0">{{ form_widget(attribute(form.elasticsearchOptions, 'hasElasticsearch')) }}</h3>
+                    <div id="elasticsearch-options" class="row px-1">
+                        {{ form_row(attribute(form.elasticsearchOptions, 'version')) }}
+                    </div>
+                </section>
             </div>
         </div>
 

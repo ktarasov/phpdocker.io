@@ -112,15 +112,39 @@ footer .github-link {
     margin-left : 1em;
 }
 
+.py-0 {
+    padding-top : 0 !important;
+    padding-bottom : 0 !important;
+}
+
+.px-1 {
+    padding-left : 15px;
+    padding-right: 15px;
+}
+
+.mb-0 {
+    margin-bottom : 0 !important;
+}
+
+.mt-0 {
+    margin-top : 0 !important;
+}
+
+.my-0 {
+    margin-top : 0 !important;
+    margin-bottom : 0 !important;
+}
+
 /***** Forms *****/
 
 form input[type=submit] {
 }
 
-form .group {
+form .group > section {
     border         : 2px #444 solid;
     border-radius  : 5px;
     margin-bottom  : 1em;
+    padding-top: 0;
 }
 
 form .group .note {
@@ -136,7 +160,7 @@ form .group h2 {
 }
 
 form .group h3 {
-    margin           : -15px -15px 0 -15px;
+    /* margin           : -15px -15px 0 -15px; */
     background-color : #444;
     padding          : 0.5em;
     color            : white;
@@ -153,6 +177,10 @@ form .group h3:first-of-type {
 
 form .form-group {
     min-height : 2em;
+}
+
+form .form-group .control-label {
+    margin-top: 8px;
 }
 
 .multiselect-container.dropdown-menu {
